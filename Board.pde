@@ -13,7 +13,6 @@ public class Board {
     this.rows = rows; this.cols = cols; 
     this.populate(); 
     activeTile = getTile(width / 2, height / 2);
-    print("activeTileX: " + activeTile.getX());
     a = new Ant(activeTile.getX(), activeTile.getY(),
       width / cols, height / rows); 
     on = false; }
@@ -52,8 +51,8 @@ public class Board {
     render();
     a.render();
     if (!on) { return; }
-    if (activeTile.getStatus()) { a.rotateCW(); }
-    else { a.rotateXCW(); }
+    if (activeTile.getStatus() >= 1) { a.rotateXCW(); }
+    else { a.rotateCW(); }
     activeTile.changeStatus();
     a.move();
     activeTile = getTile(a.getX(), a.getY());
