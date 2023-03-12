@@ -20,8 +20,8 @@ Tile t; // Used for editing tile status during simulation
 
 public void setup() {
   // Tweak these to adjust window size and resolution
-  int rows = 200;
-  int cols = 200; 
+  int rows = 50;
+  int cols = 50; 
   /* size commented out by preprocessor */;
   b = new Board(rows, cols); }
 
@@ -160,7 +160,7 @@ public class Tile {
 
   public void render() { 
     if (status) { fill(94, 129, 172); }
-    else { fill(46, 52, 64); }
+    else { fill(76, 86, 106); }
     rect(x, y, w, h); }
 }
 

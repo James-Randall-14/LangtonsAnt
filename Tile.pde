@@ -19,6 +19,6 @@ public class Tile {
 
   public void render() { 
     if (status) { fill(94, 129, 172); }
-    else { fill(46, 52, 64); }
+    else { fill(76, 86, 106); }
     rect(x, y, w, h); }
 }
