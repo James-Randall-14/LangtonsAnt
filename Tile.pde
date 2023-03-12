@@ -19,7 +19,7 @@ public class Tile {
     status += 1; if (status > 3) { status = 0; } } 
 
   public void render() { 
-    if (status == 0) { fill(255); }
+    if (status == 0) { fill(46, 52, 64); }
     else if (status == 1) { fill(136, 192, 208); }
     else if (status == 2) { fill(129, 161, 193); }
     else { fill(94, 129, 172); }
