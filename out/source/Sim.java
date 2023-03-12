@@ -20,14 +20,13 @@ Tile t; // Used for editing tile status during simulation
 
 public void setup() {
   // Tweak these to adjust window size and resolution
-  int rows = 50;
-  int cols = 50;
+  int rows = 100;
+  int cols = 100;
 
   /* size commented out by preprocessor */;
   b = new Board(rows, cols); }
 
 public void draw() {
-  background(122);
   b.run(); 
   if (mousePressed) { editTile(); } }
 
@@ -55,20 +54,20 @@ public class Ant{
     imageMode(CENTER);
     this.x = x; this.y = y; 
     this.w = w; this.h = h;
-    dxn = 1; 
+    dxn = 0; 
     icon = new PImage[4];
     for (int i = 0; i < icon.length; i++) {
       icon[i] = loadImage(i + ".png"); } }
 
   // Rotate clockwise or counter-clockwise
-  public void rotateCW() { dxn += 1; if (dxn > 3) { dxn = 0; } }
-  public void rotateXCW() { dxn -= 1; if (dxn < 0) { dxn = 3 ; } }
+  public void rotateR() { dxn += 1; if (dxn > 3) { dxn = 0; } }
+  public void rotateL() { dxn -= 1; if (dxn < 0) { dxn = 3 ; } }
 
   // Move in the direction faced
   public void move() {
-    if (dxn == 0) { y += h; }
+    if (dxn == 0) { y -= h; }
     else if (dxn == 1) { x += w; }
-    else if (dxn == 2) { y -= h; }
+    else if (dxn == 2) { y += h; }
     else if (dxn == 3) {  x -= w; }
   }
 
@@ -134,8 +133,8 @@ public class Board {
     render();
     a.render();
     if (!on) { return; }
-    if (activeTile.getStatus() >= 1) { a.rotateXCW(); }
-    else { a.rotateCW(); }
+    if (activeTile.getStatus() <= 1) { a.rotateL(); }
+    else { a.rotateR(); }
     activeTile.changeStatus();
     a.move();
     activeTile = getTile(a.getX(), a.getY());

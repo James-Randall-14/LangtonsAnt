@@ -51,8 +51,8 @@ public class Board {
     render();
     a.render();
     if (!on) { return; }
-    if (activeTile.getStatus() >= 1) { a.rotateXCW(); }
-    else { a.rotateCW(); }
+    if (activeTile.getStatus() <= 1) { a.rotateL(); }
+    else { a.rotateR(); }
     activeTile.changeStatus();
     a.move();
     activeTile = getTile(a.getX(), a.getY());
