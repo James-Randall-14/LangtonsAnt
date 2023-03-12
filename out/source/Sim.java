@@ -16,20 +16,19 @@ import java.io.IOException;
 public class Sim extends PApplet {
 
 Board b; // Handles tile placement and logic
-Tile t; // Placeholder variable for tiles returned by the board
-Ant a; // Lil duder
+Tile t; // Used for editing tile status during simulation
 
 public void setup() {
+  // Tweak these to adjust window size and resolution
+  int rows = 50;
+  int cols = 50;
+
   /* size commented out by preprocessor */;
-  background(122);
-  b = new Board(100, 100);
-  a = new Ant(width / b.getCols(), height / b.getRows()); }
+  b = new Board(rows, cols); }
 
 public void draw() {
   background(122);
-  b.render(); 
-  a.render();
-  a.run();
+  b.run(); 
   if (mousePressed) { editTile(); } }
 
 // Edits any tile that the mouse touches
@@ -42,41 +41,24 @@ public void editTile() {
 public void mouseReleased() {
   t = null; }
 
-public void keyPressed() { a.start(); }
-public class Ant extends Tile {
+// Starts simulation when a key is pressed
+public void keyPressed() { b.start(); }
+public class Ant{
   
   // Variable Declaration
-  private int x, y, w, h, dxn; // dxn is the orientation variable
+  private int x, y, w, h, dxn; // dxn is the orientation
   private boolean on;
-  //private Tile tile;
+  private Tile tile;
   private PImage[] icon;
 
-  public Ant(int w, int h) {
-    super(b.getTile(width / 2, height / 2).getX(), 
-      b.getTile(width / 2, height / 2).getY(), w, h);
+  public Ant(int x, int y, int w, int h) {
     imageMode(CENTER);
+    this.x = x; this.y = y; 
+    this.w = w; this.h = h;
     dxn = 1; 
-    on = false; 
-    //tile = b.getTile(x, y); 
     icon = new PImage[4];
     for (int i = 0; i < icon.length; i++) {
       icon[i] = loadImage(i + ".png"); } }
-  
-  // Starts the ant running
-  public void start() { on = true; }
-
-  // Determines ant behavior
-  public void run() { 
-    if (!on) { return; } // End function if not running
-
-    // If white --> clockwise. If black --> counter-clockwise.
-    //if (tile.getStatus()) { rotateCW(); }
-    //else { rotateXCW(); }
-    //tile.changeStatus();
-    move();
-    //tile = b.getTile(x, y);
-
-  }
 
   // Rotate clockwise or counter-clockwise
   public void rotateCW() { dxn += 1; if (dxn > 3) { dxn = 0; } }
@@ -94,18 +76,30 @@ public class Ant extends Tile {
   public void render() {
     fill(150);
     image(icon[dxn], x, y, w, h); }
+
+  // Getters
+  public int getX() { return x; }
+  public int getY() { return y; }
 }
 public class Board {
   
   // Variable Declaration
   private int rows, cols;
   private Tile[][] grid;
+  private Tile activeTile;
+  private Ant a;
+  private boolean on;
 
   // Constructor
   public Board(int rows, int cols) {
     grid = new Tile[rows][cols];
     this.rows = rows; this.cols = cols; 
-    this.populate(); }
+    this.populate(); 
+    activeTile = getTile(width / 2, height / 2);
+    print("activeTileX: " + activeTile.getX());
+    a = new Ant(activeTile.getX(), activeTile.getY(),
+      width / cols, height / rows); 
+    on = false; }
 
   // Fill With Tiles
   public void populate() {
@@ -132,15 +126,28 @@ public class Board {
   // Getters
   public int getRows() { return this.rows; }
   public int getCols() { return this.cols; }
+
+  // Starts the simulation
+  public void start() { on = true; }
+
+  // Runs the simulation
+  public void run() {
+    render();
+    a.render();
+    if (!on) { return; }
+    if (activeTile.getStatus()) { a.rotateCW(); }
+    else { a.rotateXCW(); }
+    activeTile.changeStatus();
+    a.move();
+    activeTile = getTile(a.getX(), a.getY());
+
+  }
 }
 public class Tile {
 
   // Variable Declaration
   private int x, y, w, h;
   private boolean status;
-
-  // Default contstructor for inheritance
-  public Tile() {};
   
   // Parameterized Contructor
   public Tile (int x, int y, int w, int h) {

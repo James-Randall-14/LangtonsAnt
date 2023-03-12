@@ -3,12 +3,20 @@ public class Board {
   // Variable Declaration
   private int rows, cols;
   private Tile[][] grid;
+  private Tile activeTile;
+  private Ant a;
+  private boolean on;
 
   // Constructor
   public Board(int rows, int cols) {
     grid = new Tile[rows][cols];
     this.rows = rows; this.cols = cols; 
-    this.populate(); }
+    this.populate(); 
+    activeTile = getTile(width / 2, height / 2);
+    print("activeTileX: " + activeTile.getX());
+    a = new Ant(activeTile.getX(), activeTile.getY(),
+      width / cols, height / rows); 
+    on = false; }
 
   // Fill With Tiles
   public void populate() {
@@ -35,4 +43,20 @@ public class Board {
   // Getters
   public int getRows() { return this.rows; }
   public int getCols() { return this.cols; }
+
+  // Starts the simulation
+  public void start() { on = true; }
+
+  // Runs the simulation
+  public void run() {
+    render();
+    a.render();
+    if (!on) { return; }
+    if (activeTile.getStatus()) { a.rotateCW(); }
+    else { a.rotateXCW(); }
+    activeTile.changeStatus();
+    a.move();
+    activeTile = getTile(a.getX(), a.getY());
+
+  }
 }

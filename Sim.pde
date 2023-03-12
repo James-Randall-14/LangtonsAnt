@@ -1,18 +1,17 @@
 Board b; // Handles tile placement and logic
-Tile t; // Placeholder variable for tiles returned by the board
-Ant a; // Lil duder
+Tile t; // Used for editing tile status during simulation
 
 void setup() {
+  // Tweak these to adjust window size and resolution
+  int rows = 50;
+  int cols = 50;
+
   size(1000, 1000);
-  background(122);
-  b = new Board(100, 100);
-  a = new Ant(width / b.getCols(), height / b.getRows()); }
+  b = new Board(rows, cols); }
 
 void draw() {
   background(122);
-  b.render(); 
-  a.render();
-  a.run();
+  b.run(); 
   if (mousePressed) { editTile(); } }
 
 // Edits any tile that the mouse touches
@@ -25,4 +24,5 @@ void editTile() {
 void mouseReleased() {
   t = null; }
 
-void keyPressed() { a.start(); }
+// Starts simulation when a key is pressed
+void keyPressed() { b.start(); }

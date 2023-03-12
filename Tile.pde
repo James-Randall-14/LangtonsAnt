@@ -3,9 +3,6 @@ public class Tile {
   // Variable Declaration
   private int x, y, w, h;
   private boolean status;
-
-  // Default contstructor for inheritance
-  public Tile() {};
   
   // Parameterized Contructor
   public Tile (int x, int y, int w, int h) {

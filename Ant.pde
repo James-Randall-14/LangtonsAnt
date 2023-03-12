@@ -6,33 +6,14 @@ public class Ant{
   private Tile tile;
   private PImage[] icon;
 
-  public Ant(int w, int h) {
+  public Ant(int x, int y, int w, int h) {
     imageMode(CENTER);
-    x = b.getTile(width / 2, height / 2).getX();
-    y = b.getTile(width / 2, height / 2).getY(); 
+    this.x = x; this.y = y; 
     this.w = w; this.h = h;
     dxn = 1; 
-    on = false; 
-    tile = b.getTile(x, y); 
     icon = new PImage[4];
     for (int i = 0; i < icon.length; i++) {
       icon[i] = loadImage(i + ".png"); } }
-  
-  // Starts the ant running
-  public void start() { on = true; }
-
-  // Determines ant behavior
-  public void run() { 
-    if (!on) { return; } // End function if not running
-
-    // If white --> clockwise. If black --> counter-clockwise.
-    if (tile.getStatus()) { rotateCW(); }
-    else { rotateXCW(); }
-    tile.changeStatus();
-    move();
-    tile = b.getTile(x, y);
-
-  }
 
   // Rotate clockwise or counter-clockwise
   public void rotateCW() { dxn += 1; if (dxn > 3) { dxn = 0; } }
@@ -50,4 +31,8 @@ public class Ant{
   public void render() {
     fill(150);
     image(icon[dxn], x, y, w, h); }
+
+  // Getters
+  public int getX() { return x; }
+  public int getY() { return y; }
 }
