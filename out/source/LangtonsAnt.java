@@ -20,9 +20,8 @@ Tile t; // Used for editing tile status during simulation
 
 public void setup() {
   // Tweak these to adjust window size and resolution
-  int rows = 25;
-  int cols = 25;
-
+  int rows = 200;
+  int cols = 200; 
   /* size commented out by preprocessor */;
   b = new Board(rows, cols); }
 
@@ -37,8 +36,7 @@ public void editTile() {
     t = b.getTile(mouseX, mouseY); } }
 
 // Clears the value of T so that you can change the same tile again
-public void mouseReleased() {
-  t = null; }
+public void mouseReleased() { t = null; }
 
 // Starts simulation when a key is pressed
 public void keyPressed() { b.start(); }
@@ -133,8 +131,8 @@ public class Board {
     render();
     a.render();
     if (!on) { return; }
-    if (activeTile.getStatus() <= 1) { a.rotateL(); }
-    else { a.rotateR(); }
+    if (activeTile.getStatus()) { a.rotateR(); }
+    else { a.rotateL(); }
     activeTile.changeStatus();
     a.move();
     activeTile = getTile(a.getX(), a.getY());
@@ -145,27 +143,24 @@ public class Tile {
 
   // Variable Declaration
   private int x, y, w, h;
-  private int status;
+  private boolean status;
   
   // Parameterized Contructor
   public Tile (int x, int y, int w, int h) {
-    this.x = x; this.y = y; this.w = w; this.h = h; status = 0;
+    this.x = x; this.y = y; this.w = w; this.h = h; status = false;
     noStroke(); }
 
   // Getters
   public int getX () { return x + w / 2; }
   public int getY () { return y + h / 2; }
-  public int getStatus () { return status; }
+  public boolean getStatus () { return status; }
 
   // Cycles tile status
-  public void changeStatus() {
-    status += 1; if (status > 3) { status = 0; } } 
+  public void changeStatus() { status = !status; } 
 
   public void render() { 
-    if (status == 0) { fill(46, 52, 64); }
-    else if (status == 1) { fill(136, 192, 208); }
-    else if (status == 2) { fill(129, 161, 193); }
-    else { fill(94, 129, 172); }
+    if (status) { fill(94, 129, 172); }
+    else { fill(46, 52, 64); }
     rect(x, y, w, h); }
 }
 

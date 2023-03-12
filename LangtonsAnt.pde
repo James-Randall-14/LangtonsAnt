@@ -3,9 +3,8 @@ Tile t; // Used for editing tile status during simulation
 
 void setup() {
   // Tweak these to adjust window size and resolution
-  int rows = 100;
-  int cols = 100;
-
+  int rows = 200;
+  int cols = 200; 
   size(1000, 1000);
   b = new Board(rows, cols); }
 
@@ -20,8 +19,7 @@ void editTile() {
     t = b.getTile(mouseX, mouseY); } }
 
 // Clears the value of T so that you can change the same tile again
-void mouseReleased() {
-  t = null; }
+void mouseReleased() { t = null; }
 
 // Starts simulation when a key is pressed
 void keyPressed() { b.start(); }
