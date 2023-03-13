@@ -10,20 +10,20 @@ public class Ant{
     imageMode(CENTER);
     this.x = x; this.y = y; 
     this.w = w; this.h = h;
-    dxn = 1; 
+    dxn = 0; 
     icon = new PImage[4];
     for (int i = 0; i < icon.length; i++) {
       icon[i] = loadImage(i + ".png"); } }
 
   // Rotate clockwise or counter-clockwise
-  public void rotateCW() { dxn += 1; if (dxn > 3) { dxn = 0; } }
-  public void rotateXCW() { dxn -= 1; if (dxn < 0) { dxn = 3 ; } }
+  public void rotateR() { dxn += 1; if (dxn > 3) { dxn = 0; } }
+  public void rotateL() { dxn -= 1; if (dxn < 0) { dxn = 3 ; } }
 
   // Move in the direction faced
   public void move() {
-    if (dxn == 0) { y += h; }
+    if (dxn == 0) { y -= h; }
     else if (dxn == 1) { x += w; }
-    else if (dxn == 2) { y -= h; }
+    else if (dxn == 2) { y += h; }
     else if (dxn == 3) {  x -= w; }
   }
 
